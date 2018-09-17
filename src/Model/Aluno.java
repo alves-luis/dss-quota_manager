@@ -9,6 +9,11 @@ public class Aluno {
         this.nome = "Foo";
     }
 
+    public Aluno(int num, String nom) {
+        this.numero = num;
+        this.nome = nom;
+    }
+
     public String getNome() {
         return nome;
     }
