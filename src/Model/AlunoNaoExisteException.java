@@ -5,7 +5,7 @@ public class AlunoNaoExisteException extends Exception {
         super();
     }
 
-    public AlunoNaoExisteException(String msg) {
-        super(msg);
+    public AlunoNaoExisteException(Integer num) {
+        super(num.toString());
     }
 }

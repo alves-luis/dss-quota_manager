@@ -1,21 +1,17 @@
 package model;
 
+
 import java.util.Map;
 import java.util.TreeMap;
 
 public class GestaoAlunos {
+
     private Map<Integer,Aluno> alunosPorNumero;
-    private Map<Integer,Double> valorPagoPorNumero;
-    private double valorDaQuota;
+    private Map<Integer,Quota> quotasPorNumero;
 
     public GestaoAlunos() {
         this.alunosPorNumero = new TreeMap<>();
-        this.valorPagoPorNumero = new TreeMap<>();
-        this.valorDaQuota = 250;
-    }
-
-    public double getValorDaQuota() {
-        return valorDaQuota;
+        this.quotasPorNumero = new TreeMap<>();
     }
 
     public Map<Integer, Aluno> getAlunos() {
@@ -25,7 +21,7 @@ public class GestaoAlunos {
     public Aluno getAluno(int num) throws AlunoNaoExisteException {
         Aluno result = this.alunosPorNumero.get(num);
         if (result == null)
-            throw new AlunoNaoExisteException(Integer.valueOf(num).toString());
+            throw new AlunoNaoExisteException(num);
         else
             return result;
     }
@@ -34,32 +30,39 @@ public class GestaoAlunos {
      * Método que adiciona um novo aluno ao sistema. Se já existir, é substituído
      */
     public void addAluno(Aluno a) {
-        this.alunosPorNumero.put(a.getNumero(),a);
-        this.valorPagoPorNumero.put(a.getNumero(), (double) 0);
+        if (a != null) {
+            this.alunosPorNumero.put(a.getNumero(), a);
+            Quota quotas = new Quota(a.getAnoRegisto());
+            this.quotasPorNumero.put(a.getNumero(),quotas);
+        }
     }
 
     /**
      * Método que devolve se o valor pago por um sócio corresponde ao valor da quota. Se o sócio não existir,
      * devolve false.
      */
-    public boolean quotaEmDia (Integer numero) {
-        Double pago = this.valorPagoPorNumero.get(numero);
-        if (pago == null) return false;
-        else return (pago.doubleValue() == valorDaQuota);
+    public boolean quotaEmDia(Integer numero) {
+        Quota quotas = this.quotasPorNumero.get(numero);
+        if (quotas == null) return false;
+        else return quotas.temQuotasEmDia();
+    }
+
+    /**
+     * Método que devolve o valor em dívida de um dado sócio. Se o sócio não existir, devolve 0.
+     */
+    public double valorEmDivida(Integer numero) {
+        Quota quotas = this.quotasPorNumero.get(numero);
+        if (quotas == null) return 0;
+        return quotas.valorEmDivida();
     }
 
     /**
      * Método que dado o ID de um sócio e um valor a pagar, atualiza os dados relativos ao estado de pagamento
      * das quotas do dado ID.
      */
-    public void pagarQuota(Integer numero, Double valor) throws AlunoNaoExisteException, QuotaJaPagaException {
-        Double pago = this.valorPagoPorNumero.get(numero);
-
-        if (pago == null) throw new AlunoNaoExisteException(numero.toString());
-        if (!quotaEmDia(numero)) throw new QuotaJaPagaException(numero.toString());
-
-        double dividaFinal = pago.doubleValue() - valor.doubleValue();
-        if (dividaFinal < 0) dividaFinal = 0;
-        this.valorPagoPorNumero.put(numero,dividaFinal);
+    public void pagarQuota(Integer numero, Double valor) {
+        Quota quotas = this.quotasPorNumero.get(numero);
+        if (quotas == null) return;
+        quotas.pagarQuota(valor);
     }
 }
