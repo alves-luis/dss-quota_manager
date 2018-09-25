@@ -91,6 +91,19 @@ public class Quota {
         }
         return divida;
     }
+    
+    /**
+     * Adiciona uma nova entry ao plano de pagamentos da quota
+     */
+    public void atualizaUltimaQuotaPorPagar() {
+        LocalDate agora = LocalDate.now();
+        LocalDate ultimaVez = this.pagamentos.lastKey();
+        while (agora.isAfter(ultimaVez) && agora.getMonthValue() > ultimaVez.getMonthValue()) {
+            ultimaVez = ultimaVez.plusMonths(1);
+            this.pagamentos.put(ultimaVez, (double) 0);
+        }
+            
+    }
 
 
 }

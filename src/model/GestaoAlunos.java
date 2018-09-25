@@ -1,6 +1,7 @@
 package model;
 
 
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -8,10 +9,12 @@ public class GestaoAlunos {
 
     private Map<Integer,Aluno> alunosPorNumero;
     private Map<Integer,Quota> quotasPorNumero;
+    private LocalDate ultimaAtualizacao;
 
     public GestaoAlunos() {
         this.alunosPorNumero = new TreeMap<>();
         this.quotasPorNumero = new TreeMap<>();
+        this.ultimaAtualizacao = LocalDate.now();
     }
 
     public Map<Integer, Aluno> getAlunos() {
@@ -24,6 +27,14 @@ public class GestaoAlunos {
             throw new AlunoNaoExisteException(num);
         else
             return result;
+    }
+    
+    /**
+     * Método que coloca novas entradas para pagamentos pendentes de quotas
+     * caso o mês atual ainda não esteja incluído no "plano de quotas" dos alunos
+     */
+    public void atualizaData() {
+        
     }
 
     /**
