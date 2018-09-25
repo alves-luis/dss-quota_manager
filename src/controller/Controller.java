@@ -5,10 +5,20 @@
  */
 package controller;
 
+import model.GestaoAlunos;
+import view.JView;
+
 /**
  *
  * @author Luís Alves
  */
 public class Controller {
     
+    private GestaoAlunos model;
+    private JView view;
+    
+    public Controller() {
+        this.model = new GestaoAlunos();
+        this.view = new JView();
+    }
 }

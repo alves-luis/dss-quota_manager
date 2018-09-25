@@ -61,6 +61,11 @@ public class ConsultarAlunos extends javax.swing.JFrame {
                 "Número", "Nome", "Quotas em Dia"
             }
         ));
+        tabela_Socios.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tabela_SociosPropertyChange(evt);
+            }
+        });
         scrollPane.setViewportView(tabela_Socios);
 
         menu_Gestao.setText("Adicionar Sócio");
@@ -81,6 +86,10 @@ public class ConsultarAlunos extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tabela_SociosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabela_SociosPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabela_SociosPropertyChange
 
     /**
      * @param args the command line arguments

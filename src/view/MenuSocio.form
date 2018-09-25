@@ -125,6 +125,7 @@
         <Property name="text" type="java.lang.String" value="Pagar Quotas"/>
       </Properties>
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butao_PagarQuotasActionPerformed"/>
         <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="butao_PagarQuotasPropertyChange"/>
       </Events>
     </Component>
@@ -132,6 +133,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Fechar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butao_FecharActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="butao_Atualizar">
       <Properties>

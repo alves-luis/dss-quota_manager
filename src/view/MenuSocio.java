@@ -48,6 +48,11 @@ public class MenuSocio extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         butao_PagarQuotas.setText("Pagar Quotas");
+        butao_PagarQuotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butao_PagarQuotasActionPerformed(evt);
+            }
+        });
         butao_PagarQuotas.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 butao_PagarQuotasPropertyChange(evt);
@@ -55,6 +60,11 @@ public class MenuSocio extends javax.swing.JFrame {
         });
 
         butao_Fechar.setText("Fechar");
+        butao_Fechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butao_FecharActionPerformed(evt);
+            }
+        });
 
         butao_Atualizar.setText("Atualizar Dados");
         butao_Atualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -188,6 +198,14 @@ public class MenuSocio extends javax.swing.JFrame {
     private void butao_PagarQuotasPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_butao_PagarQuotasPropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_butao_PagarQuotasPropertyChange
+
+    private void butao_PagarQuotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butao_PagarQuotasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butao_PagarQuotasActionPerformed
+
+    private void butao_FecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butao_FecharActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butao_FecharActionPerformed
 
     /**
      * @param args the command line arguments

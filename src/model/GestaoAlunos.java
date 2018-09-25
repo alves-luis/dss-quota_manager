@@ -34,7 +34,8 @@ public class GestaoAlunos {
      * caso o mês atual ainda não esteja incluído no "plano de quotas" dos alunos
      */
     public void atualizaData() {
-        
+        this.quotasPorNumero.values().stream().forEach(q -> q.atualizaUltimaQuotaPorPagar());
+        this.ultimaAtualizacao = LocalDate.now();
     }
 
     /**
