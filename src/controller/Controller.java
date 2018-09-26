@@ -21,4 +21,16 @@ public class Controller {
         this.model = new GestaoAlunos();
         this.view = new JView();
     }
+    
+    public void setModel(GestaoAlunos mod) {
+        this.model = mod;
+    }
+    
+    public void setView(JView view) {
+        this.view = view;
+    }
+    
+    public void startController() {
+        view.showConsultarAlunos();
+    }
 }

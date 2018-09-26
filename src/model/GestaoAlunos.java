@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 public class GestaoAlunos {
 
-    private Map<Integer,Aluno> alunosPorNumero;
+    private TreeMap<Integer,Aluno> alunosPorNumero;
     private Map<Integer,Quota> quotasPorNumero;
     private LocalDate ultimaAtualizacao;
 
@@ -19,6 +19,10 @@ public class GestaoAlunos {
 
     public Map<Integer, Aluno> getAlunos() {
         return alunosPorNumero;
+    }
+    
+    public Map<Integer,Quota> getQuotas() {
+        return quotasPorNumero;
     }
 
     public Aluno getAluno(int num) throws AlunoNaoExisteException {
@@ -77,4 +81,5 @@ public class GestaoAlunos {
         if (quotas == null) return;
         quotas.pagarQuota(valor);
     }
+
 }

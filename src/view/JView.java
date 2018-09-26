@@ -22,5 +22,9 @@ public class JView {
         this.pagarQuota = new PagarQuota();
     }
     
+    public void showConsultarAlunos() {
+        consultarAluno.setVisible(true);
+        
+    }
     
 }
