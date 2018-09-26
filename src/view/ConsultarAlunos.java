@@ -13,10 +13,13 @@ import javax.swing.table.TableModel;
  */
 public class ConsultarAlunos extends javax.swing.JFrame {
 
+    private TableModel tableModel;
+
     /**
      * Creates new form ConsultarAlunos
      */
-    public ConsultarAlunos() {
+    public ConsultarAlunos(TableModel modelo) {
+        this.tableModel = modelo;
         initComponents();
     }
 
@@ -36,44 +39,13 @@ public class ConsultarAlunos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tabela_Socios.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Número", "Nome", "Quotas em Dia"
-            }
-        ));
+        tabela_Socios.setModel(tableModel);
         tabela_Socios.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 tabela_SociosPropertyChange(evt);
             }
         });
         scrollPane.setViewportView(tabela_Socios);
-        if (tabela_Socios.getColumnModel().getColumnCount() > 0) {
-            tabela_Socios.getColumnModel().getColumn(0).setHeaderValue("Número");
-            tabela_Socios.getColumnModel().getColumn(1).setHeaderValue("Nome");
-            tabela_Socios.getColumnModel().getColumn(2).setHeaderValue("Quotas em Dia");
-        }
 
         menu_Gestao.setText("Adicionar Sócio");
         mainMenu.add(menu_Gestao);

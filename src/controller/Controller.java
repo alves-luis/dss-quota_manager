@@ -5,6 +5,7 @@
  */
 package controller;
 
+import javax.swing.table.TableModel;
 import model.GestaoAlunos;
 import view.JView;
 
@@ -31,6 +32,7 @@ public class Controller {
     }
     
     public void startController() {
-        view.showConsultarAlunos();
+        TableModel tabela = new AlunosTableModel(model);
+        view.showConsultarAlunos(tabela);
     }
 }

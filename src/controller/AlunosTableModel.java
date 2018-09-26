@@ -10,16 +10,17 @@ import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import model.Aluno;
 import model.GestaoAlunos;
 import model.Quota;
 
 /**
- *
+ * Esta classe recebe informação sobre os alunos guardados no modelo e integra essa informação num TableModel
  * @author Luís Alves
  */
-public class AlunosTableModel implements TableModel, TableModelListener{
+public class AlunosTableModel extends AbstractTableModel implements TableModelListener{
     
     private Map<Integer,Aluno> alunosPorNumero;
     private Map<Integer,Quota> quotasPorNumero;
@@ -131,16 +132,6 @@ public class AlunosTableModel implements TableModel, TableModelListener{
         }
     }
 
-    @Override
-    public void addTableModelListener(TableModelListener l) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void removeTableModelListener(TableModelListener l) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     private void setValueAtNumero(int rowIndex, Integer aValue) {
         Iterator it = this.alunosPorNumero.values().iterator();
         int i = 0;
@@ -186,6 +177,11 @@ public class AlunosTableModel implements TableModel, TableModelListener{
 
     @Override
     public void tableChanged(TableModelEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int row = e.getFirstRow();
+        int column = e.getColumn();
+        TableModel model = (TableModel)e.getSource();
+        String columnName = model.getColumnName(column);
+        Object data = model.getValueAt(row, column);
+        
     }
 }

@@ -5,6 +5,8 @@
  */
 package view;
 
+import javax.swing.table.TableModel;
+
 /**
  *
  * @author Luís Alves
@@ -16,14 +18,12 @@ public class JView {
     private PagarQuota pagarQuota;
     
     public JView() {
-        this.adicionarAluno = new AdicionarAluno();
-        this.consultarAluno = new ConsultarAlunos();
-        this.menuSocio = new MenuSocio();
-        this.pagarQuota = new PagarQuota();
     }
     
-    public void showConsultarAlunos() {
+    public void showConsultarAlunos(TableModel model) {
+        this.consultarAluno = new ConsultarAlunos(model);
         consultarAluno.setVisible(true);
+        consultarAluno.tabela_SociosSetModel(model);
         
     }
     
