@@ -176,6 +176,7 @@ public class AlunosTableModel extends AbstractTableModel implements TableModelLi
     }
 
     @Override
+    // THIS NEEDS TO BE DONE IN A WAY I DON'T KNOW
     public void tableChanged(TableModelEvent e) {
         int row = e.getFirstRow();
         int column = e.getColumn();

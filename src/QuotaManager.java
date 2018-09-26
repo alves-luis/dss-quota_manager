@@ -21,7 +21,6 @@ public class QuotaManager {
         for(int i = 0; i < 10; i++) {
             Aluno a = new Aluno(i+1000, "João " + i, "MIEI", "Rua dos Jões", LocalDate.now().minusYears(i));
             result.addAluno(a);
-            System.out.println(a.getAnoRegisto());
         }
         return result;
     }
@@ -30,6 +29,7 @@ public class QuotaManager {
         JView view = new JView();
         Controller control = new Controller();
         control.setModel(model);
+        control.setView(view);
         control.startController();
         System.out.println("Fim da aplicação!");
         

@@ -17,6 +17,8 @@ public class Quota {
 
     public Quota(LocalDate dataInicial) {
         this.pagamentos = new TreeMap<>();
+        this.valorDaQuota = 5;
+        this.pagamentos.put(dataInicial,(double) 0);
         while(dataInicial.isBefore(LocalDate.now())) {
             this.pagamentos.put(dataInicial,(double) 0);
             dataInicial = dataInicial.plusMonths(1);
