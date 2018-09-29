@@ -410,6 +410,7 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
 
     private void adicionarAluno_butaoAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarAluno_butaoAdicionarActionPerformed
         if (this.adicionarAluno_validaCamposVazios()) {
+            try {
             int ano = Integer.parseInt(adicionarAluno_fieldAno.getText());
             int dia = Integer.parseInt(adicionarAluno_fieldDia.getText());
             int mes = Integer.parseInt(adicionarAluno_fieldMes.getText());
@@ -417,15 +418,18 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
             String morada = adicionarAluno_fieldMorada.getText();
             String nome = adicionarAluno_fieldNome.getText();
             int numero = Integer.parseInt(adicionarAluno_fieldNumero.getText());
-            try {
-                this.model.addAluno(new Aluno(numero,nome,curso, morada,LocalDate.of(ano,mes,dia)));
-                this.tabela_Socios.tableChanged(new TableModelEvent(tableModel));
+            
+            this.model.addAluno(new Aluno(numero,nome,curso, morada,LocalDate.of(ano,mes,dia)));
+            this.tabela_Socios.tableChanged(new TableModelEvent(tableModel));
             }
             catch (AlunoJaExisteException e) {
                 javax.swing.JOptionPane.showMessageDialog(this.AdicionarAluno, "Aluno já existe! Nº de sócio: " + e.getMessage(), "Aluno já existe", 0);
             }
             catch (DateTimeException e) {
                 javax.swing.JOptionPane.showMessageDialog(this.AdicionarAluno, "Data de registo inválida! " + e.getMessage(), "Data inválida", 0);
+            }
+            catch (NumberFormatException e) {
+                javax.swing.JOptionPane.showMessageDialog(this.AdicionarAluno, "Erro no formato. " + e.getMessage(), "Erro de formato!", 0);
             }
         }
     }//GEN-LAST:event_adicionarAluno_butaoAdicionarActionPerformed
@@ -440,6 +444,7 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
 
     private void menuSocio_butaoAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSocio_butaoAtualizarActionPerformed
         if (this.menuSocio_validaCamposVazios()) {
+            try {
             int ano = Integer.parseInt(menuSocio_fieldAno.getText());
             int dia = Integer.parseInt(menuSocio_fieldDia.getText());
             int mes = Integer.parseInt(menuSocio_fieldMes.getText());
@@ -447,11 +452,14 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
             String morada = menuSocio_fieldMorada.getText();
             String nome = menuSocio_fieldNome.getText();
             int numero = Integer.parseInt(menuSocio_fieldNumero.getText());
-            try {
-                this.model.atualizaDados(alunoSelecionado, numero, nome, curso, morada, LocalDate.of(ano,mes,dia));
-                this.tabela_Socios.tableChanged(new TableModelEvent(tableModel));
+            
+            this.model.atualizaDados(alunoSelecionado, numero, nome, curso, morada, LocalDate.of(ano,mes,dia));
+            this.tabela_Socios.tableChanged(new TableModelEvent(tableModel));
             }
             catch (AtualizaDadosException e) {
+                javax.swing.JOptionPane.showMessageDialog(this.MenuSocio, "Erro na atualização. " + e.getMessage(), "Erro de atualização!", 0);
+            }
+            catch (NumberFormatException e) {
                 javax.swing.JOptionPane.showMessageDialog(this.MenuSocio, "Erro na atualização. " + e.getMessage(), "Erro de atualização!", 0);
             }
         }
