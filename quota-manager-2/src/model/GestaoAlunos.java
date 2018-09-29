@@ -3,9 +3,10 @@ package model;
 
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.Observable;
 import java.util.TreeMap;
 
-public class GestaoAlunos {
+public class GestaoAlunos extends Observable {
 
     private TreeMap<Integer,Aluno> alunosPorNumero;
     private Map<Integer,Quota> quotasPorNumero;
@@ -40,6 +41,8 @@ public class GestaoAlunos {
     public void atualizaData() {
         this.quotasPorNumero.values().stream().forEach(q -> q.atualizaUltimaQuotaPorPagar());
         this.ultimaAtualizacao = LocalDate.now();
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**
@@ -50,6 +53,8 @@ public class GestaoAlunos {
             this.alunosPorNumero.put(a.getNumero(), a);
             Quota quotas = new Quota(a.getAnoRegisto());
             this.quotasPorNumero.put(a.getNumero(),quotas);
+            this.setChanged();
+            this.notifyObservers();
         }
     }
 
@@ -80,6 +85,31 @@ public class GestaoAlunos {
         Quota quotas = this.quotasPorNumero.get(numero);
         if (quotas == null) return;
         quotas.pagarQuota(valor);
+        this.setChanged();
+        this.notifyObservers();
+    }
+    
+    /**
+     * Método que dado um aluno e novas informações, atualiza essas mesmas informações
+     */
+    public void atualizaDados(Aluno a, int num, String nom, String curso, String morada, LocalDate data) throws AtualizaDadosException{
+        if (this.alunosPorNumero.containsKey(num) && !this.alunosPorNumero.get(num).equals(a))
+            throw new AtualizaDadosException(String.valueOf(num));
+        else {
+            int oldNum = a.getNumero();
+            a.setNumero(num);
+            a.setAnoRegisto(data);
+            a.setNome(nom);
+            a.setCurso(curso);
+            a.setMorada(morada);
+            this.alunosPorNumero.remove(oldNum);
+            this.alunosPorNumero.put(num,a);
+            Quota q = this.quotasPorNumero.get(oldNum);
+            this.quotasPorNumero.remove(oldNum);
+            this.quotasPorNumero.put(num, q);
+            this.setChanged();
+            this.notifyObservers();
+        }
     }
 
 }

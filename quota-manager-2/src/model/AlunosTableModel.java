@@ -3,18 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package model;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
-import model.Aluno;
-import model.GestaoAlunos;
-import model.Quota;
 
 /**
  * Esta classe recebe informação sobre os alunos guardados no modelo e integra essa informação num TableModel
@@ -178,11 +174,6 @@ public class AlunosTableModel extends AbstractTableModel implements TableModelLi
     @Override
     // THIS NEEDS TO BE DONE IN A WAY I DON'T KNOW
     public void tableChanged(TableModelEvent e) {
-        int row = e.getFirstRow();
-        int column = e.getColumn();
-        TableModel model = (TableModel)e.getSource();
-        String columnName = model.getColumnName(column);
-        Object data = model.getValueAt(row, column);
         
     }
 }

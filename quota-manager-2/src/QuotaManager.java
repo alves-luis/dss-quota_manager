@@ -1,8 +1,9 @@
 
-import controller.*;
+
+
 import java.time.LocalDate;
 import model.*;
-import view.*;
+import view.JQuotaManager;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,13 +27,8 @@ public class QuotaManager {
     }
     public static void main(String[] args) {
         GestaoAlunos model = QuotaManager.populate();
-        JView view = new JView();
-        Controller control = new Controller();
-        control.setModel(model);
-        control.setView(view);
-        control.startController();
+        AlunosTableModel table = new AlunosTableModel(model);
+        JQuotaManager view = new JQuotaManager(table, model);
         System.out.println("Fim da aplicação!");
-        
-        
     }
 }
