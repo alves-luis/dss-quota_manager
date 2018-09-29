@@ -21,7 +21,12 @@ public class QuotaManager {
         GestaoAlunos result = new GestaoAlunos();
         for(int i = 0; i < 10; i++) {
             Aluno a = new Aluno(i+1000, "João " + i, "MIEI", "Rua dos Jões", LocalDate.now().minusYears(i));
-            result.addAluno(a);
+            try {
+                result.addAluno(a);
+            }
+            catch (AlunoJaExisteException e) {
+                System.out.println("Alguém não sabe pré popular!");
+            }
         }
         return result;
     }

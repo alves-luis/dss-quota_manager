@@ -1,6 +1,7 @@
 package model;
 
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Observable;
@@ -46,15 +47,21 @@ public class GestaoAlunos extends Observable {
     }
 
     /**
-     * Método que adiciona um novo aluno ao sistema. Se já existir, é substituído
+     * Método que adiciona um novo aluno ao sistema. Se já existir, manda uma exceção
      */
-    public void addAluno(Aluno a) {
+    public void addAluno(Aluno a) throws AlunoJaExisteException, DateTimeException {
         if (a != null) {
-            this.alunosPorNumero.put(a.getNumero(), a);
-            Quota quotas = new Quota(a.getAnoRegisto());
-            this.quotasPorNumero.put(a.getNumero(),quotas);
-            this.setChanged();
-            this.notifyObservers();
+            if (this.alunosPorNumero.containsKey(a.getNumero()))
+                throw new AlunoJaExisteException(String.valueOf(a.getNumero()));
+            if (a.getAnoRegisto().isAfter(LocalDate.now())) 
+                throw new DateTimeException("Não se pode registar no futuro!");
+            else {
+                this.alunosPorNumero.put(a.getNumero(), a);
+                Quota quotas = new Quota(a.getAnoRegisto());
+                this.quotasPorNumero.put(a.getNumero(),quotas);
+                this.setChanged();
+                this.notifyObservers();
+            }
         }
     }
 
@@ -89,12 +96,18 @@ public class GestaoAlunos extends Observable {
         this.notifyObservers();
     }
     
+    public LocalDate getUltimaAtualizacao() {
+        return this.ultimaAtualizacao;
+    }
+    
     /**
      * Método que dado um aluno e novas informações, atualiza essas mesmas informações
      */
     public void atualizaDados(Aluno a, int num, String nom, String curso, String morada, LocalDate data) throws AtualizaDadosException{
         if (this.alunosPorNumero.containsKey(num) && !this.alunosPorNumero.get(num).equals(a))
-            throw new AtualizaDadosException(String.valueOf(num));
+            throw new AtualizaDadosException(String.valueOf(num) + " já existe!");
+        if (data.isAfter(LocalDate.now())) 
+            throw new AtualizaDadosException("Não se pode registar no futuro!");
         else {
             int oldNum = a.getNumero();
             a.setNumero(num);

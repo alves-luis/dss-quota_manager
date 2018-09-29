@@ -11,9 +11,11 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.UIManager;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableModel;
 import model.Aluno;
+import model.AlunoJaExisteException;
 import model.AlunoNaoExisteException;
 import model.AtualizaDadosException;
 import model.GestaoAlunos;
@@ -37,6 +39,7 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        
         this.setVisible(true);
     }
 
@@ -86,9 +89,12 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
         menuSocio_fieldMorada = new javax.swing.JTextField();
         scrollPane = new javax.swing.JScrollPane();
         tabela_Socios = new javax.swing.JTable();
+        mainMenu_ultimaAtualizacaoLabel = new javax.swing.JLabel();
+        mainMenu_ultimaAtualizacaoLabelDynamic = new javax.swing.JLabel();
         mainMenu = new javax.swing.JMenuBar();
         menu_Gestao = new javax.swing.JMenu();
         adicionarSocio_menuItem = new javax.swing.JMenuItem();
+        menu_Atualizar = new javax.swing.JMenu();
 
         adicionarAluno_butaoAdicionar.setText("Adicionar");
         adicionarAluno_butaoAdicionar.addActionListener(new java.awt.event.ActionListener() {
@@ -106,12 +112,6 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
 
         adicionarAluno_labelNome.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         adicionarAluno_labelNome.setText("Nome");
-
-        adicionarAluno_fieldNumero.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                adicionarAluno_fieldNumeroActionPerformed(evt);
-            }
-        });
 
         adicionarAluno_labelNumero.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         adicionarAluno_labelNumero.setText("Número");
@@ -219,11 +219,6 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
                 menuSocio_butaoPagarQuotasActionPerformed(evt);
             }
         });
-        menuSocio_butaoPagarQuotas.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                menuSocio_butaoPagarQuotasPropertyChange(evt);
-            }
-        });
 
         menuSocio_butaoFechar.setText("Fechar");
         menuSocio_butaoFechar.addActionListener(new java.awt.event.ActionListener() {
@@ -244,12 +239,6 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
 
         menuSocio_labelNumero.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         menuSocio_labelNumero.setText("Número");
-
-        menuSocio_fieldNumero.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuSocio_fieldNumeroActionPerformed(evt);
-            }
-        });
 
         menuSocio_labelCurso.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         menuSocio_labelCurso.setText("Curso");
@@ -358,19 +347,13 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
                 tabela_SociosMouseClicked(evt);
             }
         });
-        tabela_Socios.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                tabela_SociosPropertyChange(evt);
-            }
-        });
         scrollPane.setViewportView(tabela_Socios);
 
+        mainMenu_ultimaAtualizacaoLabel.setText("Última Atualização:");
+
+        mainMenu_ultimaAtualizacaoLabelDynamic.setText(this.model.getUltimaAtualizacao().toString());
+
         menu_Gestao.setText("Novo");
-        menu_Gestao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menu_GestaoActionPerformed(evt);
-            }
-        });
 
         adicionarSocio_menuItem.setText("Sócio");
         adicionarSocio_menuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -382,6 +365,14 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
 
         mainMenu.add(menu_Gestao);
 
+        menu_Atualizar.setText("Atualizar Sistema");
+        menu_Atualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menu_AtualizarMouseClicked(evt);
+            }
+        });
+        mainMenu.add(menu_Atualizar);
+
         setJMenuBar(mainMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -389,18 +380,26 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mainMenu_ultimaAtualizacaoLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(mainMenu_ultimaAtualizacaoLabelDynamic)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mainMenu_ultimaAtualizacaoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mainMenu_ultimaAtualizacaoLabelDynamic))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tabela_SociosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabela_SociosPropertyChange
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tabela_SociosPropertyChange
 
     private void adicionarSocio_menuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarSocio_menuItemActionPerformed
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -408,10 +407,6 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
         AdicionarAluno.setSize(600,300);
         AdicionarAluno.setVisible(true);
     }//GEN-LAST:event_adicionarSocio_menuItemActionPerformed
-
-    private void menu_GestaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_GestaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menu_GestaoActionPerformed
 
     private void adicionarAluno_butaoAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarAluno_butaoAdicionarActionPerformed
         if (this.adicionarAluno_validaCamposVazios()) {
@@ -426,23 +421,18 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
                 this.model.addAluno(new Aluno(numero,nome,curso, morada,LocalDate.of(ano,mes,dia)));
                 this.tabela_Socios.tableChanged(new TableModelEvent(tableModel));
             }
+            catch (AlunoJaExisteException e) {
+                javax.swing.JOptionPane.showMessageDialog(this.AdicionarAluno, "Aluno já existe! Nº de sócio: " + e.getMessage(), "Aluno já existe", 0);
+            }
             catch (DateTimeException e) {
-                javax.swing.JOptionPane.showMessageDialog(this.AdicionarAluno, "Data de registo inválida!", "Data inválida", 0);
+                javax.swing.JOptionPane.showMessageDialog(this.AdicionarAluno, "Data de registo inválida! " + e.getMessage(), "Data inválida", 0);
             }
         }
     }//GEN-LAST:event_adicionarAluno_butaoAdicionarActionPerformed
 
-    private void adicionarAluno_fieldNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarAluno_fieldNumeroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_adicionarAluno_fieldNumeroActionPerformed
-
     private void menuSocio_butaoPagarQuotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSocio_butaoPagarQuotasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_menuSocio_butaoPagarQuotasActionPerformed
-
-    private void menuSocio_butaoPagarQuotasPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_menuSocio_butaoPagarQuotasPropertyChange
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menuSocio_butaoPagarQuotasPropertyChange
 
     private void menuSocio_butaoFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSocio_butaoFecharActionPerformed
         this.MenuSocio.setVisible(false);
@@ -462,14 +452,10 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
                 this.tabela_Socios.tableChanged(new TableModelEvent(tableModel));
             }
             catch (AtualizaDadosException e) {
-                javax.swing.JOptionPane.showMessageDialog(this.MenuSocio, "Tentou atualizar o nº para um nº já existente. Tente novamente com outro número!", "Erro de atualização!", 0);
+                javax.swing.JOptionPane.showMessageDialog(this.MenuSocio, "Erro na atualização. " + e.getMessage(), "Erro de atualização!", 0);
             }
         }
     }//GEN-LAST:event_menuSocio_butaoAtualizarActionPerformed
-
-    private void menuSocio_fieldNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSocio_fieldNumeroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menuSocio_fieldNumeroActionPerformed
 
     private void adicionarAluno_butaoFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarAluno_butaoFecharActionPerformed
         AdicionarAluno.setVisible(false);
@@ -498,6 +484,13 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
             System.out.println("Aluno não existe!");
         }
     }//GEN-LAST:event_tabela_SociosMouseClicked
+
+    private void menu_AtualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_AtualizarMouseClicked
+        // TODO add your handling code here:
+        this.model.atualizaData();
+        this.menu_Atualizar.setSelected(false);
+        this.mainMenu_ultimaAtualizacaoLabelDynamic.setText(this.model.getUltimaAtualizacao().toString());
+    }//GEN-LAST:event_menu_AtualizarMouseClicked
 
   
     private boolean adicionarAluno_validaCamposVazios() {
@@ -547,6 +540,8 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel adicionarAluno_labelNumero;
     private javax.swing.JMenuItem adicionarSocio_menuItem;
     private javax.swing.JMenuBar mainMenu;
+    private javax.swing.JLabel mainMenu_ultimaAtualizacaoLabel;
+    private javax.swing.JLabel mainMenu_ultimaAtualizacaoLabelDynamic;
     private javax.swing.JButton menuSocio_butaoAtualizar;
     private javax.swing.JButton menuSocio_butaoFechar;
     private javax.swing.JButton menuSocio_butaoPagarQuotas;
@@ -564,6 +559,7 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel menuSocio_labelMorada;
     private javax.swing.JLabel menuSocio_labelNome;
     private javax.swing.JLabel menuSocio_labelNumero;
+    private javax.swing.JMenu menu_Atualizar;
     private javax.swing.JMenu menu_Gestao;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JTable tabela_Socios;
@@ -571,6 +567,6 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.mainMenu_ultimaAtualizacaoLabelDynamic.setText(this.model.getUltimaAtualizacao().toString());
     }
 }
