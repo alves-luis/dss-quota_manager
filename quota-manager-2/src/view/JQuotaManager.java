@@ -39,7 +39,7 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        
+
         this.setVisible(true);
     }
 
@@ -418,9 +418,10 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
             String morada = adicionarAluno_fieldMorada.getText();
             String nome = adicionarAluno_fieldNome.getText();
             int numero = Integer.parseInt(adicionarAluno_fieldNumero.getText());
-            
+
             this.model.addAluno(new Aluno(numero,nome,curso, morada,LocalDate.of(ano,mes,dia)));
             this.tabela_Socios.tableChanged(new TableModelEvent(tableModel));
+            this.AdicionarAluno.setVisible(false);
             }
             catch (AlunoJaExisteException e) {
                 javax.swing.JOptionPane.showMessageDialog(this.AdicionarAluno, "Aluno já existe! Nº de sócio: " + e.getMessage(), "Aluno já existe", 0);
@@ -452,7 +453,7 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
             String morada = menuSocio_fieldMorada.getText();
             String nome = menuSocio_fieldNome.getText();
             int numero = Integer.parseInt(menuSocio_fieldNumero.getText());
-            
+
             this.model.atualizaDados(alunoSelecionado, numero, nome, curso, morada, LocalDate.of(ano,mes,dia));
             this.tabela_Socios.tableChanged(new TableModelEvent(tableModel));
             }
@@ -461,6 +462,9 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
             }
             catch (NumberFormatException e) {
                 javax.swing.JOptionPane.showMessageDialog(this.MenuSocio, "Erro na atualização. " + e.getMessage(), "Erro de atualização!", 0);
+            }
+            catch (DateTimeException e) {
+              javax.swing.JOptionPane.showMessageDialog(this.MenuSocio, "Erro na atualização. " + e.getMessage(), "Erro de atualização!", 0);
             }
         }
     }//GEN-LAST:event_menuSocio_butaoAtualizarActionPerformed
@@ -500,7 +504,7 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
         this.mainMenu_ultimaAtualizacaoLabelDynamic.setText(this.model.getUltimaAtualizacao().toString());
     }//GEN-LAST:event_menu_AtualizarMouseClicked
 
-  
+
     private boolean adicionarAluno_validaCamposVazios() {
         boolean flag = this.adicionarAluno_fieldAno.getText().equals("") ||
                       this.adicionarAluno_fieldCurso.getText().equals("") ||
@@ -513,7 +517,7 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
             javax.swing.JOptionPane.showMessageDialog(this.AdicionarAluno, "Tem dados por preencher!", "Dados incompletos", 0);
         return !flag;
     }
-    
+
     private boolean menuSocio_validaCamposVazios() {
         boolean flag = this.menuSocio_fieldAno.getText().equals("") ||
                       this.menuSocio_fieldCurso.getText().equals("") ||
