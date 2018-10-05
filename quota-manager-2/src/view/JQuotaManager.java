@@ -19,10 +19,11 @@ import model.AlunoJaExisteException;
 import model.AlunoNaoExisteException;
 import model.AtualizaDadosException;
 import model.GestaoAlunos;
+import model.QuotasTableModel;
 
 /**
  *
- * @author Luís Alves
+ * @author Luís Alves,Rafaela Rodrigues, Diogo Gonçalves, André Gonçalves
  */
 public class JQuotaManager extends javax.swing.JFrame implements Observer {
 
@@ -39,7 +40,7 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-
+        
         this.setVisible(true);
     }
 
@@ -87,6 +88,15 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
         menuSocio_fieldDia = new javax.swing.JTextField();
         menuSocio_labelMorada = new javax.swing.JLabel();
         menuSocio_fieldMorada = new javax.swing.JTextField();
+        PagarQuota = new javax.swing.JFrame();
+        pagarQuota_Confirmar = new javax.swing.JButton();
+        pagarQuota_Cancelar = new javax.swing.JButton();
+        pagarQuota_InfoPagamento = new javax.swing.JLabel();
+        pagarQuota_valorEmDivida = new javax.swing.JLabel();
+        paguarQuotas_detalhes = new javax.swing.JButton();
+        ConsultarQuotas = new javax.swing.JFrame();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        consultarQuotas_todasQuotas = new javax.swing.JTable();
         scrollPane = new javax.swing.JScrollPane();
         tabela_Socios = new javax.swing.JTable();
         mainMenu_ultimaAtualizacaoLabel = new javax.swing.JLabel();
@@ -339,6 +349,87 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
                 .addContainerGap())
         );
 
+        pagarQuota_Confirmar.setText("Confirmar");
+        pagarQuota_Confirmar.setToolTipText("");
+        pagarQuota_Confirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pagarQuota_ConfirmarActionPerformed(evt);
+            }
+        });
+
+        pagarQuota_Cancelar.setText("Cancelar");
+        pagarQuota_Cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pagarQuota_CancelarActionPerformed(evt);
+            }
+        });
+
+        pagarQuota_InfoPagamento.setFont(new java.awt.Font("Arial Hebrew Scholar", 0, 13)); // NOI18N
+        pagarQuota_InfoPagamento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pagarQuota_InfoPagamento.setText("Valor do pagamento");
+        pagarQuota_InfoPagamento.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        pagarQuota_valorEmDivida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        paguarQuotas_detalhes.setText("Detalhes");
+        paguarQuotas_detalhes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paguarQuotas_detalhesActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PagarQuotaLayout = new javax.swing.GroupLayout(PagarQuota.getContentPane());
+        PagarQuota.getContentPane().setLayout(PagarQuotaLayout);
+        PagarQuotaLayout.setHorizontalGroup(
+            PagarQuotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PagarQuotaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pagarQuota_valorEmDivida, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PagarQuotaLayout.createSequentialGroup()
+                .addGroup(PagarQuotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(PagarQuotaLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(paguarQuotas_detalhes))
+                    .addGroup(PagarQuotaLayout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addGroup(PagarQuotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(pagarQuota_InfoPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(PagarQuotaLayout.createSequentialGroup()
+                                .addComponent(pagarQuota_Confirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(105, 105, 105)
+                                .addComponent(pagarQuota_Cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addGap(45, 45, 45))
+        );
+        PagarQuotaLayout.setVerticalGroup(
+            PagarQuotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PagarQuotaLayout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(pagarQuota_InfoPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(pagarQuota_valorEmDivida)
+                .addGap(12, 12, 12)
+                .addComponent(paguarQuotas_detalhes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGroup(PagarQuotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(pagarQuota_Cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pagarQuota_Confirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jScrollPane1.setViewportView(consultarQuotas_todasQuotas);
+
+        javax.swing.GroupLayout ConsultarQuotasLayout = new javax.swing.GroupLayout(ConsultarQuotas.getContentPane());
+        ConsultarQuotas.getContentPane().setLayout(ConsultarQuotasLayout);
+        ConsultarQuotasLayout.setHorizontalGroup(
+            ConsultarQuotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
+        );
+        ConsultarQuotasLayout.setVerticalGroup(
+            ConsultarQuotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tabela_Socios.setModel(tableModel);
@@ -418,10 +509,9 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
             String morada = adicionarAluno_fieldMorada.getText();
             String nome = adicionarAluno_fieldNome.getText();
             int numero = Integer.parseInt(adicionarAluno_fieldNumero.getText());
-
+            
             this.model.addAluno(new Aluno(numero,nome,curso, morada,LocalDate.of(ano,mes,dia)));
             this.tabela_Socios.tableChanged(new TableModelEvent(tableModel));
-            this.AdicionarAluno.setVisible(false);
             }
             catch (AlunoJaExisteException e) {
                 javax.swing.JOptionPane.showMessageDialog(this.AdicionarAluno, "Aluno já existe! Nº de sócio: " + e.getMessage(), "Aluno já existe", 0);
@@ -436,7 +526,11 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_adicionarAluno_butaoAdicionarActionPerformed
 
     private void menuSocio_butaoPagarQuotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSocio_butaoPagarQuotasActionPerformed
-        // TODO add your handling code here:
+        this.pagarQuota_valorEmDivida.setText(String.valueOf(this.model.valorEmDivida(this.alunoSelecionado.getNumero())));
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        PagarQuota.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        PagarQuota.setSize(600,300);
+        this.PagarQuota.setVisible(true);
     }//GEN-LAST:event_menuSocio_butaoPagarQuotasActionPerformed
 
     private void menuSocio_butaoFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSocio_butaoFecharActionPerformed
@@ -453,7 +547,7 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
             String morada = menuSocio_fieldMorada.getText();
             String nome = menuSocio_fieldNome.getText();
             int numero = Integer.parseInt(menuSocio_fieldNumero.getText());
-
+            
             this.model.atualizaDados(alunoSelecionado, numero, nome, curso, morada, LocalDate.of(ano,mes,dia));
             this.tabela_Socios.tableChanged(new TableModelEvent(tableModel));
             }
@@ -462,9 +556,6 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
             }
             catch (NumberFormatException e) {
                 javax.swing.JOptionPane.showMessageDialog(this.MenuSocio, "Erro na atualização. " + e.getMessage(), "Erro de atualização!", 0);
-            }
-            catch (DateTimeException e) {
-              javax.swing.JOptionPane.showMessageDialog(this.MenuSocio, "Erro na atualização. " + e.getMessage(), "Erro de atualização!", 0);
             }
         }
     }//GEN-LAST:event_menuSocio_butaoAtualizarActionPerformed
@@ -504,7 +595,24 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
         this.mainMenu_ultimaAtualizacaoLabelDynamic.setText(this.model.getUltimaAtualizacao().toString());
     }//GEN-LAST:event_menu_AtualizarMouseClicked
 
+    private void pagarQuota_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarQuota_CancelarActionPerformed
+        this.PagarQuota.setVisible(false);
+    }//GEN-LAST:event_pagarQuota_CancelarActionPerformed
 
+    private void pagarQuota_ConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarQuota_ConfirmarActionPerformed
+        this.model.pagarQuota(alunoSelecionado.getNumero(), model.valorEmDivida(alunoSelecionado.getNumero()));
+        this.pagarQuota_valorEmDivida.setText("0");
+    }//GEN-LAST:event_pagarQuota_ConfirmarActionPerformed
+
+    private void paguarQuotas_detalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paguarQuotas_detalhesActionPerformed
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.ConsultarQuotas.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.ConsultarQuotas.setSize(600,300);
+        this.consultarQuotas_todasQuotas.setModel(new QuotasTableModel(model, alunoSelecionado.getNumero()));
+        this.ConsultarQuotas.setVisible(true);
+    }//GEN-LAST:event_paguarQuotas_detalhesActionPerformed
+
+  
     private boolean adicionarAluno_validaCamposVazios() {
         boolean flag = this.adicionarAluno_fieldAno.getText().equals("") ||
                       this.adicionarAluno_fieldCurso.getText().equals("") ||
@@ -517,7 +625,7 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
             javax.swing.JOptionPane.showMessageDialog(this.AdicionarAluno, "Tem dados por preencher!", "Dados incompletos", 0);
         return !flag;
     }
-
+    
     private boolean menuSocio_validaCamposVazios() {
         boolean flag = this.menuSocio_fieldAno.getText().equals("") ||
                       this.menuSocio_fieldCurso.getText().equals("") ||
@@ -533,7 +641,9 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame AdicionarAluno;
+    private javax.swing.JFrame ConsultarQuotas;
     private javax.swing.JFrame MenuSocio;
+    private javax.swing.JFrame PagarQuota;
     private javax.swing.JButton adicionarAluno_butaoAdicionar;
     private javax.swing.JButton adicionarAluno_butaoFechar;
     private javax.swing.JTextField adicionarAluno_fieldAno;
@@ -551,6 +661,8 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel adicionarAluno_labelNome;
     private javax.swing.JLabel adicionarAluno_labelNumero;
     private javax.swing.JMenuItem adicionarSocio_menuItem;
+    private javax.swing.JTable consultarQuotas_todasQuotas;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar mainMenu;
     private javax.swing.JLabel mainMenu_ultimaAtualizacaoLabel;
     private javax.swing.JLabel mainMenu_ultimaAtualizacaoLabelDynamic;
@@ -573,6 +685,11 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel menuSocio_labelNumero;
     private javax.swing.JMenu menu_Atualizar;
     private javax.swing.JMenu menu_Gestao;
+    private javax.swing.JButton pagarQuota_Cancelar;
+    private javax.swing.JButton pagarQuota_Confirmar;
+    private javax.swing.JLabel pagarQuota_InfoPagamento;
+    private javax.swing.JLabel pagarQuota_valorEmDivida;
+    private javax.swing.JButton paguarQuotas_detalhes;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JTable tabela_Socios;
     // End of variables declaration//GEN-END:variables

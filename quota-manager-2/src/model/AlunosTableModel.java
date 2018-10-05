@@ -14,7 +14,7 @@ import javax.swing.table.TableModel;
 
 /**
  * Esta classe recebe informação sobre os alunos guardados no modelo e integra essa informação num TableModel
- * @author Luís Alves
+ * @author Luís Alves,Rafaela Rodrigues, Diogo Gonçalves, André Gonçalves
  */
 public class AlunosTableModel extends AbstractTableModel implements TableModelListener{
     

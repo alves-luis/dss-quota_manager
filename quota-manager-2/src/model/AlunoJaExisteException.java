@@ -7,7 +7,7 @@ package model;
 
 /**
  *
- * @author Luís Alves
+ * @author Luís Alves,Rafaela Rodrigues, Diogo Gonçalves, André Gonçalves
  */
 public class AlunoJaExisteException extends Exception {
     public AlunoJaExisteException() {
