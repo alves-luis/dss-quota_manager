@@ -96,6 +96,14 @@ public class GestaoAlunos extends Observable {
         this.notifyObservers();
     }
     
+    public void pagarQuota(Integer numero) {
+        Quota quotas = this.quotasPorNumero.get(numero);
+        if (quotas == null) return;
+        quotas.pagarQuota();
+        this.setChanged();
+        this.notifyObservers();
+    }
+    
     public LocalDate getUltimaAtualizacao() {
         return this.ultimaAtualizacao;
     }

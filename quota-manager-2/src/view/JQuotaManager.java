@@ -600,8 +600,8 @@ public class JQuotaManager extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_pagarQuota_CancelarActionPerformed
 
     private void pagarQuota_ConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarQuota_ConfirmarActionPerformed
-        this.model.pagarQuota(alunoSelecionado.getNumero(), model.valorEmDivida(alunoSelecionado.getNumero()));
-        this.pagarQuota_valorEmDivida.setText("0");
+        this.model.pagarQuota(alunoSelecionado.getNumero());
+        this.pagarQuota_valorEmDivida.setText(String.valueOf(this.model.valorEmDivida(this.alunoSelecionado.getNumero())));
     }//GEN-LAST:event_pagarQuota_ConfirmarActionPerformed
 
     private void paguarQuotas_detalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paguarQuotas_detalhesActionPerformed

@@ -67,7 +67,7 @@ public class Quota {
             double pagamento = valor >= valorDaQuota ? valorDaQuota : valor;
             entry.setValue(pagamento);
             valor -= pagamento;
-            if (valor == 0) break;
+            if (valor < 0) break;
         }
     }
 
